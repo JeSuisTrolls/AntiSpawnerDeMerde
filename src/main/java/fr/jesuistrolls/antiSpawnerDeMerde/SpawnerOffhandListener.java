@@ -14,28 +14,32 @@ import org.bukkit.inventory.PlayerInventory;
 
 public class SpawnerOffhandListener implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player)) return;
         Player player = (Player) event.getWhoClicked();
         InventoryAction action = event.getAction();
+        int hotbarButton = event.getHotbarButton();
 
-        if (event.getClickedInventory() instanceof PlayerInventory && event.getSlot() == 40) {
-            ItemStack cursor = event.getCursor();
+
+        boolean clickedOffhand = event.getRawSlot() == 45
+                || (event.getClickedInventory() instanceof PlayerInventory && event.getSlot() == 40);
+
+        if (clickedOffhand) {
             if (action == InventoryAction.HOTBAR_SWAP) {
-                ItemStack hotbarItem = player.getInventory().getItem(event.getHotbarButton());
+                ItemStack hotbarItem = hotbarButton >= 0 ? player.getInventory().getItem(hotbarButton) : null;
                 if (isSpawner(hotbarItem)) {
                     event.setCancelled(true);
                     return;
                 }
             }
-            if (isSpawner(cursor)) {
+            if (isSpawner(event.getCursor())) {
                 event.setCancelled(true);
                 return;
             }
         }
 
-        if (action == InventoryAction.HOTBAR_SWAP && event.getHotbarButton() == 40) {
+        if (action == InventoryAction.HOTBAR_SWAP && (hotbarButton == 40 || hotbarButton == -1)) {
             if (isSpawner(event.getCurrentItem())) {
                 event.setCancelled(true);
             }

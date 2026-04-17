@@ -1,7 +1,0 @@
-name: AntiSpawnerDeMerde
-version: '1.0.0'
-main: fr.jesuistrolls.antiSpawnerDeMerde.AntiSpawnerDeMerde
-api-version: '1.21'
-prefix: AntiSpawnerDeMerde
-load: STARTUP
-authors: [ JeSuisTrolls ]
