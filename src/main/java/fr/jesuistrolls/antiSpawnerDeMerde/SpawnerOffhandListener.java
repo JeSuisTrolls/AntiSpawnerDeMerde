@@ -53,8 +53,7 @@ public class SpawnerOffhandListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onSwapHands(PlayerSwapHandItemsEvent event) {
-        ItemStack actualMain = event.getPlayer().getInventory().getItemInMainHand();
-        if (isSpawner(event.getMainHandItem()) || isSpawner(actualMain)) {
+        if (isSpawner(event.getMainHandItem()) || isSpawner(event.getOffHandItem())) {
             event.setCancelled(true);
         }
     }
